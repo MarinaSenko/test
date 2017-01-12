@@ -60,24 +60,24 @@
 
 		<?php if ( $array['delivered'] > 0 ): ?>
 			<!-- Секция доставленных писем -->
-			<div class="progress-bar progress-bar-success" data-toggle="tooltip"
-			     title="<?php echo $array['delivered'] ?>" style="width:
+			<div id="tool-delivered" class="progress-bar progress-bar-success" data-toggle="tooltip"
+			     title="<?php echo 'Количество доставленных писем:' . $array['delivered'] ?>" style="width:
 			<?php echo ( $array['delivered'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['delivered'] > 0 ? '70px' : '' ?>">
 
 
 				<?php if ( $array['open'] > 0 ): ?>
 				<!-- Подсекция открытых писем -->
-				<div class="progress-bar progress-bar-warning" data-toggle="tooltip"
-				     title="<?php echo $array['open'] ?>" style="width:
+				<div id="tool-open" class="progress-bar progress-bar-warning" data-toggle="tooltip"
+				     title="<?php echo 'Количество открытых писем:' . $array['open'] ?>" style="width:
 				<?php echo ( $array['open'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['open'] > 0 ? '50px' : '' ?>">
 					<?php endif; ?>
 
 
 					<?php if ( $array['click'] > 0 ): ?>
 						<!-- Подсекция писем с переходом по ссылке  -->
-						<div class="progress-bar " data-toggle="tooltip" title="<?php echo $array['click'] ?>"
-						     style="width:
-						     <?php echo ( $array['click'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['click'] > 0 ? '30px' : '' ?>">
+						<div id="tool-click" class="progress-bar " data-toggle="tooltip"
+						     title="<?php echo 'Количество писем по перейденным ссылкам:' . $array['click'] ?>"
+						     style="width:<?php echo ( $array['click'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['click'] > 0 ? '30px' : '' ?>">
 
 							<!-- Отображение процентной доли писем с переходами -->
 							<?php echo $array['delivered'] > 0 ? round( ( $array['click'] / $array['delivered'] ) * 100, 1 ) : null; ?>
@@ -98,7 +98,8 @@
 
 		<?php if ( $array['progress'] > 0 ) : ?>
 			<!-- Секция писем в процессе отправки -->
-			<div class="progress-bar " data-toggle="tooltip" title="<?php echo $array['progress'] ?>"
+			<div class="progress-bar " data-toggle="tooltip"
+			     title="<?php echo 'Количество писем в процессе отправки:' . $array['progress'] ?>"
 			     style="background-color:grey; width:
 			     <?php echo ( $array['progress'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['progress'] > 0 ? '30px' : '' ?>">
 				<!-- Отображение процентной писем в процессе отправки -->
@@ -110,7 +111,7 @@
 		<?php if ( $array['fail'] > 0 ) : ?>
 			<!-- Секция недоставленных писем -->
 			<div class="progress-bar progress-bar-danger" data-toggle="tooltip"
-			     title="<?php echo $array['fail'] ?>"
+			     title="<?php echo 'Количество недоставленных писем:' . $array['fail'] ?>"
 			     style="width:
 			     <?php echo ( $array['fail'] / $array['total_count'] ) * 100; ?>%;<?php echo $array['fail'] > 0 ? '30px' : '' ?>">
 				<!-- Отображение процентной доли недоставленных писем -->
@@ -130,7 +131,35 @@
 <!-- Скрипт для отображения тултипов -->
 <script>
 	$(document).ready(function () {
-		$('[data-toggle="tooltip"]').tooltip();
+		var bIsShown = true;
+//		Блокируем показ тултипа на стадии всплывания и перехвата
+		$("#tool-open").on('mouseenter', function () {
+			bIsShown = true;
+
+		}, false).on('mouseleave', function () {
+			bIsShown = false;
+		})
+
+
+		$("#tool-click").on('mouseenter', function () {
+			bIsShown = true;
+
+		}, false).on('mouseleave', function () {
+			bIsShown = false;
+		})
+
+
+		$("#tool-delivered").on('mouseenter', function () {
+			bIsShown = true;
+
+		}).on('mouseleave', function () {
+			bIsShown = false;
+		})
+
+		$('[data-toggle="tooltip"]').tooltip({
+			placement: 'top',
+			container: 'body'
+		});
 	});
 </script>
 
