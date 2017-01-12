@@ -17,11 +17,13 @@ $data = [];
 function getData($data) {
 
 	$array = $data;
-	$array['progress']    = ( $array['total_count'] - ( $array['delivered'] + $array['fail'] ) );
+	$array['progress']    = ($array['total_count'] - ( $array['delivered'] + $array['fail']));
 	return $array;
 
 }
 
+
+$array = getData($data);
 
 
 

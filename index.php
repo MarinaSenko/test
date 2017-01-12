@@ -7,7 +7,9 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -48,45 +50,89 @@
 
 	<br><br>
 
+	<?php if ( isset( $_POST['submit'] ) ): ?>
+	<?php require_once( 'function.php' ); ?>
+
+
 	<!-- Прогресс бар -->
-
-
+	<?php if ( $array['total_count'] > 0 ): ?>
 	<div class="progress">
 
-		<!-- Секция доставленных писем -->
+		<?php if ( $array['delivered'] > 0 ): ?>
+			<!-- Секция доставленных писем -->
+			<div class="progress-bar progress-bar-success" data-toggle="tooltip"
+			     title="<?php echo $array['delivered'] ?>" style="width:
+			<?php echo ( $array['delivered'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['delivered'] > 0 ? '70px' : '' ?>">
 
-		<div class="progress-bar progress-bar-success" style="width: ">
+
+				<?php if ( $array['open'] > 0 ): ?>
+				<!-- Подсекция открытых писем -->
+				<div class="progress-bar progress-bar-warning" data-toggle="tooltip"
+				     title="<?php echo $array['open'] ?>" style="width:
+				<?php echo ( $array['open'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['open'] > 0 ? '50px' : '' ?>">
+					<?php endif; ?>
 
 
-			<!-- Подсекция открытых писем -->
-			<div class="progress-bar progress-bar-warning" style="width: ">
+					<?php if ( $array['click'] > 0 ): ?>
+						<!-- Подсекция писем с переходом по ссылке  -->
+						<div class="progress-bar " data-toggle="tooltip" title="<?php echo $array['click'] ?>"
+						     style="width:
+						     <?php echo ( $array['click'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['click'] > 0 ? '30px' : '' ?>">
 
-				<!-- Подсекция писем с переходом по ссылке  -->
+							<!-- Отображение процентной доли писем с переходами -->
+							<?php echo $array['delivered'] > 0 ? round( ( $array['click'] / $array['delivered'] ) * 100, 1 ) : null; ?>
+						</div>
+					<?php endif; ?>
 
-				<div class="progress-bar " style="width: ">
 
+					<!-- Отображение процентной доли открытых писем -->
+					<?php echo ( $array['delivered'] > 0 ) ? ( round( ( $array['open'] / $array['delivered'] ) * 100, 1 ) ) : null; ?>
 				</div>
 
+
+				<!-- Отображение процентной доли доставленных писем -->
+				<?php echo $array['total_count'] > 0 ? round( ( $array['delivered'] / $array['total_count'] ) * 100, 1 ) : null; ?>
 			</div>
+		<?php endif; ?>
 
-		</div>
 
-		<!-- Секция писем в процессе отправки -->
+		<?php if ( $array['progress'] > 0 ) : ?>
+			<!-- Секция писем в процессе отправки -->
+			<div class="progress-bar " data-toggle="tooltip" title="<?php echo $array['progress'] ?>"
+			     style="background-color:grey; width:
+			     <?php echo ( $array['progress'] / $array['total_count'] ) * 100; ?>%; min-width: <?php echo $array['progress'] > 0 ? '30px' : '' ?>">
+				<!-- Отображение процентной писем в процессе отправки -->
+				<?php echo $array['total_count'] > 0 ? round( ( $array['progress'] / $array['total_count'] ) * 100, 1 ) : null; ?>
+			</div>
+		<?php endif; ?>
 
-		<div class="progress-bar" style="width: ; background-color: grey">
 
-		</div>
+		<?php if ( $array['fail'] > 0 ) : ?>
+			<!-- Секция недоставленных писем -->
+			<div class="progress-bar progress-bar-danger" data-toggle="tooltip"
+			     title="<?php echo $array['fail'] ?>"
+			     style="width:
+			     <?php echo ( $array['fail'] / $array['total_count'] ) * 100; ?>%;<?php echo $array['fail'] > 0 ? '30px' : '' ?>">
+				<!-- Отображение процентной доли недоставленных писем -->
+				<?php echo $array['total_count'] ? round( ( $array['fail'] / $array['total_count'] ) * 100, 1 ) : null; ?>
+			</div>
+		<?php endif; ?>
 
-		<!-- Секция недоставленных писем -->
 
-		<div class="progress-bar progress-bar-danger" style="width: ">
-
-		</div>
+		<?php endif; ?>
+		<?php endif; ?>
 
 	</div>
 
 
 </div>
+
+<!-- Скрипт для отображения тултипов -->
+<script>
+	$(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
 
 </body>
 </html>
