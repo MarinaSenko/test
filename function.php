@@ -24,7 +24,12 @@ function getData($data) {
 
 
 $array = getData($data);
+$vars = extract($array);
 
 
+function calcPercentage ($x, $y) {
+	$res = ($x/$y)*100;
+	return $res;
+}
 
 

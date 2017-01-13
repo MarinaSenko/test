@@ -55,68 +55,68 @@
 
 
 	<!-- Прогресс бар -->
-	<?php if ( $array['total_count'] > 0 ): ?>
+	<?php if ( $total_count > 0 ): ?>
 	<div class="progress">
 
-		<?php if ( round( ( $array['delivered'] / $array['total_count'] ) * 100, 1 ) >= 0.1 ): ?>
+		<?php if ( round( calcPercentage($open, $total_count), 1 ) >= 0.1 ): ?>
 			<!-- Секция доставленных писем -->
 			<div id="tool-delivered" class="progress-bar progress-bar-success" data-toggle="tooltip"
-			     title="<?php echo 'Количество доставленных писем:' . $array['delivered'] ?>" style="width:
-			<?php echo ( $array['delivered'] / $array['total_count'] ) * 100; ?>%; min-width:90px">
+			     title="<?php echo 'Количество доставленных писем:' . $delivered ?>" style="width:
+			<?php echo calcPercentage($open, $total_count); ?>%; min-width:90px">
 
 
-				<?php if ( round( ( $array['open'] / $array['delivered'] ) * 100, 1 ) >= 0.1): ?>
+				<?php if ( round( calcPercentage($open, $total_count)) >= 0.1): ?>
 				<!-- Подсекция открытых писем -->
 				<div id="tool-open" class="progress-bar progress-bar-warning" data-toggle="tooltip"
-				     title="<?php echo 'Количество открытых писем:' . $array['open'] ?>" style="width:
-				<?php echo ( $array['open'] / $array['total_count'] ) * 100; ?>%; min-width:60px">
+				     title="<?php echo 'Количество открытых писем:' . $open ?>" style="width:
+				<?php echo calcPercentage($open, $total_count); ?>%; min-width:60px">
 					<?php endif; ?>
 
 
-					<?php if ( round( ( $array['click'] / $array['delivered'] ) * 100, 1 ) >= 0.1 ): ?>
+					<?php if ( round( calcPercentage($click, $delivered), 1 ) >= 0.1 ): ?>
 						<!-- Подсекция писем с переходом по ссылке  -->
 						<div id="tool-click" class="progress-bar " data-toggle="tooltip"
-						     title="<?php echo 'Количество писем по перейденным ссылкам:' . $array['click'] ?>"
-						     style="width:<?php echo ( $array['click'] / $array['total_count'] ) * 100; ?>%; min-width:30px">
+						     title="<?php echo 'Количество писем по перейденным ссылкам:' . $click?>"
+						     style="width:<?php echo calcPercentage($click, $delivered) == calcPercentage($open, $delivered) ? 'calc('. calcPercentage($click, $delivered) .'% - 30px)' : calcPercentage($click, $delivered); ?>%; min-width:30px">
 
 							<!-- Отображение процентной доли писем с переходами -->
-							<?php echo $array['delivered'] > 0 ? round( ( $array['click'] / $array['delivered'] ) * 100, 1 ) : null; ?>
+							<?php echo  round( calcPercentage($click, $delivered), 1 ); ?>
 						</div>
 					<?php endif; ?>
 
 
 					<!-- Отображение процентной доли открытых писем -->
-					<?php echo ( $array['delivered'] > 0 ) ? ( round( ( $array['open'] / $array['delivered'] ) * 100, 1 ) ) : null; ?>
+					<?php echo  round( calcPercentage($open, $delivered), 1 ); ?>
 				</div>
 
 
 				<!-- Отображение процентной доли доставленных писем -->
-				<?php echo $array['total_count'] > 0 ? round( ( $array['delivered'] / $array['total_count'] ) * 100, 1 ) : null; ?>
+				<?php echo  round( calcPercentage($delivered, $total_count), 1 ); ?>
 			</div>
 		<?php endif; ?>
 
 
-		<?php if ( round( ( $array['progress'] / $array['total_count'] ) * 100, 1 ) >= 0.1) : ?>
+		<?php if ( round( calcPercentage($progress, $total_count), 1 ) >= 0.1) : ?>
 			<!-- Секция писем в процессе отправки -->
 			<div class="progress-bar " data-toggle="tooltip"
-			     title="<?php echo 'Количество писем в процессе отправки:' . $array['progress'] ?>"
+			     title="<?php echo 'Количество писем в процессе отправки:' . $progress ?>"
 			     style="background-color:grey; width:
-			     <?php echo (( $array['progress'] / $array['total_count'] ) * 100) > 95 ? 'calc('. ($array['progress'] / $array['total_count']  * 100) .'% - 90px)' : (( $array['progress'] / $array['total_count'] ) * 100).'%' ; ?>;min-width:30px">
+			     <?php echo calcPercentage($progress, $total_count) > 95 ? 'calc('. calcPercentage($progress, $total_count) .'% - 90px)' : calcPercentage($progress, $total_count).'%' ; ?>;min-width:30px">
 				<!-- Отображение процентной писем в процессе отправки -->
-				<?php echo $array['total_count'] > 0 ? round( ( $array['progress'] / $array['total_count'] ) * 100, 1 ) : null; ?>
+				<?php echo  round( calcPercentage($progress, $total_count), 1 ); ?>
 			</div>
 		<?php endif; ?>
 
 
-		<?php if ( round( ( $array['fail'] / $array['total_count'] ) * 100, 1 ) >= 0.1 ) : ?>
+		<?php if ( round( calcPercentage($fail, $total_count), 1 )  >= 0.1 ) : ?>
 			<!-- Секция недоставленных писем -->
 			<div class="progress-bar progress-bar-danger" data-toggle="tooltip"
-			     title="<?php echo 'Количество недоставленных писем:' . $array['fail'] ?>"
+			     title="<?php echo 'Количество недоставленных писем:' . $fail ?>"
 			     style="width:
-			     <?php echo (( $array['fail'] / $array['total_count'] ) * 100) > 95 ? 'calc('. ($array['fail'] / $array['total_count']  * 100) .'% - 120px)' : (( $array['fail'] / $array['total_count'] ) * 100).'%' ; ?>;30px">
+			     <?php echo calcPercentage($fail, $total_count) > 95 ? 'calc('. calcPercentage($fail, $total_count) .'% - 120px)' : calcPercentage($fail, $total_count).'%' ; ?>;30px">
 
 				<!-- Отображение процентной доли недоставленных писем -->
-				<?php echo $array['total_count'] ? round( ( $array['fail'] / $array['total_count'] ) * 100, 1 ) : null; ?>
+				<?php echo  round( calcPercentage($fail, $total_count), 1 ); ?>
 			</div>
 		<?php endif; ?>
 
