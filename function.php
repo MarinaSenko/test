@@ -22,7 +22,7 @@ function getData($data) {
 
 }
 
-$vars = extract(test($data));
+$vars = extract(getData($data));
 
 
 function calcPercentage ($x, $y) {
