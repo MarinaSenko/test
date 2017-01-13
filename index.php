@@ -58,14 +58,14 @@
 	<?php if ( $total_count > 0 ): ?>
 	<div class="progress">
 
-		<?php if ( round( calcPercentage($open, $total_count), 1 ) >= 0.1 ): ?>
+		<?php if ( round( calcPercentage($delivered, $total_count), 1 ) >= 0.1 ): ?>
 			<!-- Секция доставленных писем -->
 			<div id="tool-delivered" class="progress-bar progress-bar-success" data-toggle="tooltip"
 			     title="<?php echo 'Количество доставленных писем:' . $delivered ?>" style="width:
-			<?php echo calcPercentage($open, $total_count); ?>%; min-width:90px">
+			<?php echo calcPercentage($delivered, $total_count); ?>%; min-width:90px">
 
 
-				<?php if ( round( calcPercentage($open, $total_count)) >= 0.1): ?>
+				<?php if ( round( calcPercentage($open, $total_count), 1) >= 0.1): ?>
 				<!-- Подсекция открытых писем -->
 				<div id="tool-open" class="progress-bar progress-bar-warning" data-toggle="tooltip"
 				     title="<?php echo 'Количество открытых писем:' . $open ?>" style="width:
@@ -101,7 +101,7 @@
 			<div class="progress-bar " data-toggle="tooltip"
 			     title="<?php echo 'Количество писем в процессе отправки:' . $progress ?>"
 			     style="background-color:grey; width:
-			     <?php echo calcPercentage($progress, $total_count) > 95 ? 'calc('. calcPercentage($progress, $total_count) .'% - 90px)' : calcPercentage($progress, $total_count).'%' ; ?>;min-width:30px">
+			     <?php echo calcPercentage($progress, $total_count) > 90 ? 'calc('. calcPercentage($progress, $total_count) .'% - 120px)' : calcPercentage($progress, $total_count).'%' ; ?>;min-width:30px">
 				<!-- Отображение процентной писем в процессе отправки -->
 				<?php echo  round( calcPercentage($progress, $total_count), 1 ); ?>
 			</div>
@@ -113,7 +113,7 @@
 			<div class="progress-bar progress-bar-danger" data-toggle="tooltip"
 			     title="<?php echo 'Количество недоставленных писем:' . $fail ?>"
 			     style="width:
-			     <?php echo calcPercentage($fail, $total_count) > 95 ? 'calc('. calcPercentage($fail, $total_count) .'% - 120px)' : calcPercentage($fail, $total_count).'%' ; ?>;30px">
+			     <?php echo calcPercentage($fail, $total_count) > 90 ? 'calc('. calcPercentage($fail, $total_count) .'% - 150px)' : calcPercentage($fail, $total_count).'%' ; ?>;30px">
 
 				<!-- Отображение процентной доли недоставленных писем -->
 				<?php echo  round( calcPercentage($fail, $total_count), 1 ); ?>

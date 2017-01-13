@@ -22,14 +22,31 @@ function getData($data) {
 
 }
 
-
-$array = getData($data);
-$vars = extract($array);
+$vars = extract(test($data));
 
 
 function calcPercentage ($x, $y) {
 	$res = ($x/$y)*100;
 	return $res;
 }
+
+// Функция рандомно подбирает параметры (для теста)
+// Для вызова $vars = extract(test($data));
+
+function test() {
+
+	$data['total_count'] = random_int(1, 100);
+	$data['delivered']   = random_int(0, $data['total_count'] );
+	$data['fail']        = random_int(0, ($data['total_count'] - $data['delivered']));
+	$data['open']        = random_int(0, $data['delivered']);
+	$data['click']       = random_int(0, $data['open']);
+
+	$data['progress'] = ( $data['total_count'] - ( $data['delivered'] + $data['fail'] ) );
+
+	return $data;
+}
+
+
+
 
 
